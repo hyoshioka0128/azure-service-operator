@@ -202,7 +202,7 @@ func createGetKnownTypesFunc(codeGenerationContext *astmodel.CodeGenerationConte
 
 	resourceAppendStatements := make([]dst.Stmt, 0, len(resources))
 	for _, typeName := range resources {
-		appendStmt := astbuilder.AppendSlice(
+		appendStmt := astbuilder.AppendItemToSlice(
 			resultIdent,
 			astbuilder.CallFunc("new", typeName.AsType(codeGenerationContext)))
 		resourceAppendStatements = append(resourceAppendStatements, appendStmt)
@@ -338,7 +338,7 @@ func (r *ResourceRegistrationFile) createGetKnownStorageTypesFunc(
 			newStorageTypeBuilder.AddField("Watches", sliceBuilder.Build())
 		}
 
-		appendStmt := astbuilder.AppendSlice(
+		appendStmt := astbuilder.AppendItemToSlice(
 			resultIdent,
 			astbuilder.AddrOf(newStorageTypeBuilder.Build()))
 		resourceAppendStatements = append(resourceAppendStatements, appendStmt)
@@ -379,7 +379,7 @@ func (r *ResourceRegistrationFile) createGetResourceExtensions(context *astmodel
 
 	resourceAppendStatements := make([]dst.Stmt, 0, len(r.resourceExtensions))
 	for _, typeName := range r.resourceExtensions {
-		appendStmt := astbuilder.AppendSlice(
+		appendStmt := astbuilder.AppendItemToSlice(
 			resultIdent,
 			astbuilder.AddrOf(astbuilder.NewCompositeLiteralBuilder(typeName.AsType(context)).Build()),
 		)
