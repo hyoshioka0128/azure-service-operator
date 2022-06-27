@@ -337,12 +337,11 @@ func (r *ResourceRegistrationFile) createGetKnownStorageTypesFunc(
 				astbuilder.AddrOf(astbuilder.NewCompositeLiteralBuilder(listTypeName).Build()))
 			newWatchBuilder.AddField("MakeEventHandler", eventHandler)
 
-			sliceBuilder := astbuilder.NewSliceLiteralBuilder(astmodel.WatchRegistrationType.AsType(codeGenerationContext), true)
 			if len(secretKeys) > 0 {
+				sliceBuilder := astbuilder.NewSliceLiteralBuilder(astmodel.WatchRegistrationType.AsType(codeGenerationContext), true)
 				sliceBuilder.AddElement(newWatchBuilder.Build())
+				newStorageTypeBuilder.AddField("Watches", sliceBuilder.Build())
 			}
-
-			newStorageTypeBuilder.AddField("Watches", sliceBuilder.Build())
 		}
 
 		appendStmt := astbuilder.AppendItemToSlice(
